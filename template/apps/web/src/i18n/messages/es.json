@@ -1,0 +1,7 @@
+{
+  "nav": { "home": "Inicio", "dashboard": "Panel", "admin": "Admin", "settings": "Ajustes", "logout": "Cerrar sesión" },
+  "auth": { "login": "Iniciar sesión", "register": "Crear cuenta", "logout": "Salir", "email": "Correo", "password": "Contraseña", "name": "Nombre", "forgotPassword": "¿Olvidaste tu contraseña?", "noAccount": "¿No tienes cuenta?", "haveAccount": "¿Ya tienes cuenta?" },
+  "common": { "save": "Guardar", "cancel": "Cancelar", "delete": "Eliminar", "edit": "Editar", "create": "Crear", "search": "Buscar", "loading": "Cargando…", "error": "Algo salió mal", "empty": "No se encontraron resultados", "confirm": "Confirmar" },
+  "dashboard": { "title": "Panel", "welcome": "Bienvenido" },
+  "admin": { "title": "Admin", "users": "Usuarios", "totalUsers": "Total usuarios", "activeUsers": "Usuarios activos" }
+}

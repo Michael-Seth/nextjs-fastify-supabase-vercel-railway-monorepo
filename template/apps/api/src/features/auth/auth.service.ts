@@ -1,0 +1,14 @@
+import { authRepo } from "./auth.repository.js"; import { signAccessToken,signRefreshToken,verifyRefreshToken } from "../../utils/token.js"; import { AppError } from "../../utils/errors/AppError.js"; import { db } from "../../lib/supabase.js"; import { supabase } from "../../config/database.js"; import type { TRegister,TLogin } from "./auth.schema.js"; import type { TokenPair } from "../../types/auth.js";
+async function issue(userId:string,email:string,role:string):Promise<TokenPair> {
+  const at=signAccessToken({userId,email,role}), rt=signRefreshToken(userId);
+  await authRepo.saveToken(userId,authRepo.hashToken(rt),new Date(Date.now()+7*86400000));
+  return{accessToken:at,refreshToken:rt,expiresIn:900};
+}
+export const authService={
+  async register(b:TRegister){ if(await authRepo.findByEmail(b.email)) throw AppError.conflict("Email in use"); const u=await db.auth.createUser(b.email,b.password,{name:b.name}); const user=await authRepo.create({id:u!.id,email:b.email,name:b.name??null,role:"user",is_active:true,avatar_url:null,last_login_at:new Date().toISOString()}); return{user,tokens:await issue(user.id,user.email,user.role)}; },
+  async login(b:TLogin){ const u=await authRepo.findByEmail(b.email); if(!u||!u.is_active) throw AppError.unauthorized("Invalid credentials"); const{error}=await supabase.auth.signInWithPassword({email:b.email,password:b.password}); if(error) throw AppError.unauthorized("Invalid credentials"); await authRepo.touchLogin(u.id); return{user:u,tokens:await issue(u.id,u.email,u.role)}; },
+  async refresh(token:string):Promise<TokenPair>{ const p=verifyRefreshToken(token); if(!p) throw AppError.unauthorized("Invalid token"); const s=await authRepo.findToken(authRepo.hashToken(token)); if(!s||new Date(s.expires_at)<new Date()) throw AppError.unauthorized("Token expired"); const u=await authRepo.findById(p.userId); if(!u||!u.is_active) throw AppError.unauthorized(); await authRepo.revokeToken(authRepo.hashToken(token)); return issue(u.id,u.email,u.role); },
+  async logout(t:string){ await authRepo.revokeToken(authRepo.hashToken(t)); },
+  async logoutAll(uid:string){ await authRepo.revokeAll(uid); },
+  async me(uid:string){ const u=await authRepo.findById(uid); if(!u) throw AppError.notFound(); return u; },
+};

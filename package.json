@@ -1,0 +1,44 @@
+{
+  "name": "nextjs-fastify-supabase-vercel-railway-monorepo",
+  "version": "1.0.0",
+  "description": "Scaffold a production-ready Next.js + Fastify + Supabase monorepo pre-wired for Vercel (web) and Railway (API)",
+  "keywords": [
+    "nextjs",
+    "fastify",
+    "supabase",
+    "vercel",
+    "railway",
+    "turborepo",
+    "monorepo",
+    "boilerplate",
+    "starter",
+    "template",
+    "typescript",
+    "saas"
+  ],
+  "license": "MIT",
+  "author": "Michael Osas",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/you/nextjs-fastify-supabase-vercel-railway-monorepo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/you/nextjs-fastify-supabase-vercel-railway-monorepo/issues"
+  },
+  "homepage": "https://github.com/you/nextjs-fastify-supabase-vercel-railway-monorepo#readme",
+  "type": "module",
+  "dependencies": {
+    "prompts": "^2.4.2"
+  },
+  "bin": {
+    "create-nfs-app": "bin/create.js",
+    "nextjs-fastify-supabase-vercel-railway-monorepo": "bin/create.js"
+  },
+  "files": [
+    "bin",
+    "template"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

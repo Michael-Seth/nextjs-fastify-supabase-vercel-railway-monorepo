@@ -1,0 +1,4 @@
+import type { FastifyInstance } from "fastify"; import crypto from "crypto"; import { env } from "../../config/env.js"; import { logger } from "../../utils/logger.js";
+export async function webhookRoutes(app:FastifyInstance){
+  app.post("/",{schema:{tags:["Webhooks"],summary:"Receive webhook"},async handler(req,reply){ const sig=req.headers["x-webhook-signature"] as string|undefined; if(env.WEBHOOK_SECRET&&sig){ const exp="sha256="+crypto.createHmac("sha256",env.WEBHOOK_SECRET).update(JSON.stringify(req.body)).digest("hex"); if(!crypto.timingSafeEqual(Buffer.from(sig),Buffer.from(exp))) return reply.status(401).send({message:"Invalid signature"}); } const{type}=(req.body as{type:string}); logger.info({type},"Webhook"); switch(type){ default: logger.warn({type},"Unhandled"); } return reply.send({received:true}); }});
+}

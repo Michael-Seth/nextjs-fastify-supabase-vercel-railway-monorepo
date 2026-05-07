@@ -1,0 +1,3 @@
+import { db } from "../../lib/supabase.js"; import type { Database } from "../../types/database.js";
+type K=Database["public"]["Tables"]["api_keys"]["Row"];
+export const apiKeyRepo={ create:(p:Database["public"]["Tables"]["api_keys"]["Insert"])=>db.create<K>("api_keys",p as Record<string,unknown>), listByUser:(uid:string)=>db.findMany<K>("api_keys",{filters:{user_id:uid}}), findById:(id:string,uid:string)=>db.findOne<K>("api_keys",{id,user_id:uid}), revoke:(id:string,uid:string)=>db.update("api_keys",{id,user_id:uid},{is_active:false}), delete:(id:string,uid:string)=>db.delete("api_keys",{id,user_id:uid}) };

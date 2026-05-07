@@ -1,0 +1,52 @@
+# ── Web app (not used by the API Docker build) ────────────────────────────────
+apps/web/
+
+# ── node_modules (reinstalled fresh inside Docker) ────────────────────────────
+node_modules/
+apps/api/node_modules/
+packages/shared/node_modules/
+
+# ── Build outputs (produced inside Docker via tsc) ────────────────────────────
+apps/api/dist/
+packages/shared/dist/
+
+# ── Local environment / secrets (set via Railway dashboard env vars) ──────────
+.env
+.env.*
+apps/api/.env
+apps/api/.env.*
+*.pem
+*.key
+
+# ── Test & coverage ───────────────────────────────────────────────────────────
+coverage/
+apps/api/coverage/
+apps/api/src/test/
+apps/api/src/**/tests/
+apps/api/vitest.config.ts
+
+# ── Turborepo & build caches ──────────────────────────────────────────────────
+.turbo/
+apps/api/.turbo/
+packages/shared/.turbo/
+
+# ── Version control ───────────────────────────────────────────────────────────
+.git/
+.gitignore
+
+# ── CI / CD ───────────────────────────────────────────────────────────────────
+.github/
+
+# ── Editor / IDE ──────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── OS artefacts ──────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db

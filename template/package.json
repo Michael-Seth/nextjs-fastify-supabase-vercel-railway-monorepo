@@ -1,0 +1,29 @@
+﻿{
+  "name": "{{app-name}}",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "db:seed": "npm run db:seed --workspace=apps/api",
+    "db:migrate": "npm run db:migrate --workspace=apps/api",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\""
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "eslint": "^9.39.4",
+    "prettier": "^3.8.3",
+    "turbo": "^2.9.6",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0"
+  }
+}

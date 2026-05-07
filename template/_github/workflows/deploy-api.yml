@@ -1,0 +1,36 @@
+name: Deploy API → Railway
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [development]
+    paths:
+      - "apps/api/**"
+      - "packages/shared/**"
+      - "pnpm-lock.yaml"
+      - "apps/api/Dockerfile"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm --filter @repo/api type-check
+
+      - name: Deploy to Railway
+        run: npx @railway/cli up --service=${{ secrets.RAILWAY_SERVICE_ID }} --environment=production --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}

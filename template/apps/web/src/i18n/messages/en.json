@@ -1,0 +1,7 @@
+{
+  "nav": { "home": "Home", "dashboard": "Dashboard", "admin": "Admin", "settings": "Settings", "logout": "Logout" },
+  "auth": { "login": "Sign in", "register": "Create account", "logout": "Sign out", "email": "Email", "password": "Password", "name": "Name", "forgotPassword": "Forgot password?", "noAccount": "No account?", "haveAccount": "Have an account?" },
+  "common": { "save": "Save", "cancel": "Cancel", "delete": "Delete", "edit": "Edit", "create": "Create", "search": "Search", "loading": "Loading…", "error": "Something went wrong", "empty": "No results found", "confirm": "Confirm" },
+  "dashboard": { "title": "Dashboard", "welcome": "Welcome back" },
+  "admin": { "title": "Admin", "users": "Users", "totalUsers": "Total Users", "activeUsers": "Active Users" }
+}
