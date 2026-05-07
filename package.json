@@ -20,12 +20,12 @@
   "author": "Michael Osas",
   "repository": {
     "type": "git",
-    "url": "https://github.com/you/nextjs-fastify-supabase-vercel-railway-monorepo.git"
+    "url": "https://github.com/Michael-Seth/nextjs-fastify-supabase-vercel-railway-monorepo.git"
   },
   "bugs": {
-    "url": "https://github.com/you/nextjs-fastify-supabase-vercel-railway-monorepo/issues"
+    "url": "https://github.com/Michael-Seth/nextjs-fastify-supabase-vercel-railway-monorepo/issues"
   },
-  "homepage": "https://github.com/you/nextjs-fastify-supabase-vercel-railway-monorepo#readme",
+  "homepage": "https://github.com/Michael-Seth/nextjs-fastify-supabase-vercel-railway-monorepo#readme",
   "type": "module",
   "dependencies": {
     "prompts": "^2.4.2"
