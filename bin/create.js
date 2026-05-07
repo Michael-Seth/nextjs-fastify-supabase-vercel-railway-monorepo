@@ -309,7 +309,7 @@ async function main() {
     projectName = res.name?.trim();
   }
 
-  projectName = projectName.toLowerCase().replace(/\s+/g, '-');
+  projectName = projectName.toLowerCase().replaceAll(/\s+/g, '-');
 
   if (!projectName || !/^[a-z][a-z0-9-]*$/.test(projectName)) {
     console.error('\n❌  Name must start with a letter and contain only lowercase letters, numbers, hyphens.\n');
@@ -397,6 +397,21 @@ async function main() {
     execSync('git commit -m "chore: initial scaffold"', { cwd: targetDir, stdio: 'ignore' });
   } catch { /* git is optional */ }
 
+  // ── Install dependencies ───────────────────────────────────────────────────
+  const hasPnpm = (() => {
+    try { execSync('pnpm --version', { stdio: 'ignore' }); return true; } catch { return false; }
+  })();
+
+  let installDone = false;
+  if (hasPnpm) {
+    console.log('\n📦  Installing dependencies…\n');
+    execSync('pnpm install', { cwd: targetDir, stdio: 'inherit' });
+    installDone = true;
+  } else {
+    console.log('\n⚠️   pnpm not found. Install it first, then run pnpm install inside your project:');
+    console.log('\n  npm install -g pnpm\n');
+  }
+
   // ── Done ───────────────────────────────────────────────────────────────────
   const line = '─'.repeat(60);
   console.log(`\n✅  ${displayName} created in ./${projectName}/\n`);
@@ -407,7 +422,7 @@ async function main() {
   console.log('  cp apps/web/.env.example  apps/web/.env.local');
   console.log('  # → fill in SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY,');
   console.log('  #   JWT_SECRET, REFRESH_TOKEN_SECRET\n');
-  console.log('  pnpm install\n');
+  if (!installDone) console.log('  pnpm install\n');
   console.log('  # → run apps/api/supabase/migrations/001_initial.sql in Supabase SQL editor');
   console.log('  pnpm db:seed    # admin@example.com / Admin1234!');
   console.log('  pnpm dev        # API :3001 · Web :3000\n');
