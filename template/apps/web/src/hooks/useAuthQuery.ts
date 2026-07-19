@@ -4,6 +4,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useRouter } from "next/navigation";
 import type { AuthResponse } from "@/types/api";
 import type { LoginValues, RegisterValues } from "@/lib/validators";
+import { createSupabaseBrowserClient } from "@/lib/supabase";
 
 export const authKeys = { me: ["auth","me"] as const };
 
@@ -42,5 +43,18 @@ export function useLogout() {
   return useMutation({
     mutationFn: () => api.post("/auth/logout", { refreshToken }),
     onSettled: () => { logout(); qc.clear(); router.push("/login"); },
+  });
+}
+
+export function useGoogleSignIn() {
+  return useMutation({
+    mutationFn: async () => {
+      const supabase = createSupabaseBrowserClient();
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${globalThis.location.origin}/auth/callback` },
+      });
+      if (error) throw new Error(error.message);
+    },
   });
 }

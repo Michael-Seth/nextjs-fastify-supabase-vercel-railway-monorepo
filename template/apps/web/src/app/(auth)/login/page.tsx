@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { toast } from "sonner";
+import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 
 export default function LoginPage() {
   const { mutate: login, isPending } = useLogin();
@@ -21,6 +22,8 @@ export default function LoginPage() {
           <Input label="Password" type="password" placeholder="••••••••" error={errors.password?.message} {...register("password")} />
           <div className="flex justify-end"><Link href="/forgot-password" className="text-sm text-primary hover:underline">Forgot password?</Link></div>
           <Button type="submit" loading={isPending} className="w-full">Sign in</Button>
+          <div className="relative my-2"><div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div><div className="relative flex justify-center text-xs uppercase"><span className="bg-card px-2 text-muted-foreground">or</span></div></div>
+          <GoogleSignInButton />
         </form>
         <p className="text-center text-sm text-muted-foreground">No account? <Link href="/register" className="text-primary hover:underline">Sign up</Link></p>
       </div>

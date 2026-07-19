@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { toast } from "sonner";
+import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 
 export default function RegisterPage() {
   const { mutate: register_, isPending } = useRegister();
@@ -22,6 +23,8 @@ export default function RegisterPage() {
           <Input label="Password" type="password" placeholder="Min 8 chars" error={errors.password?.message} {...register("password")} />
           <Input label="Confirm Password" type="password" placeholder="••••••••" error={errors.confirmPassword?.message} {...register("confirmPassword")} />
           <Button type="submit" loading={isPending} className="w-full">Create account</Button>
+          <div className="relative my-2"><div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div><div className="relative flex justify-center text-xs uppercase"><span className="bg-card px-2 text-muted-foreground">or</span></div></div>
+          <GoogleSignInButton />
         </form>
         <p className="text-center text-sm text-muted-foreground">Have account? <Link href="/login" className="text-primary hover:underline">Sign in</Link></p>
       </div>

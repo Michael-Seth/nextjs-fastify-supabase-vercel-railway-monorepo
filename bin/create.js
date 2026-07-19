@@ -21,7 +21,7 @@ const BANNER = `
   ╚██████╗██║     ███████║    ██║ ╚═╝ ██║╚██████╔╝██║ ╚████║╚██████╔╝
    ╚═════╝╚═╝     ╚══════╝    ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝
 
-  Monorepo scaffold: Next.js + Fastify + Supabase — v1.0.0
+  Monorepo scaffold: Next.js + Fastify + Supabase — v1.0.1
 
   ${'─'.repeat(66)}
 `;
@@ -204,6 +204,30 @@ const FEATURE_MAP = {
     depsApi: [],
     depsWeb: [],
   },
+
+  googleAuth: {
+    filePaths: [
+      'apps/web/src/app/(auth)/callback',
+      'apps/web/src/components/GoogleSignInButton.tsx',
+      'apps/web/src/lib/supabase.ts',
+    ],
+    removals: {
+      'apps/web/src/app/(auth)/login/page.tsx': [
+        '\nimport { GoogleSignInButton } from "@/components/GoogleSignInButton";\n',
+        '\n        <div className="relative my-2"><div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div><div className="relative flex justify-center text-xs uppercase"><span className="bg-card px-2 text-muted-foreground">or</span></div></div>\n        <GoogleSignInButton />\n',
+      ],
+      'apps/web/src/app/(auth)/register/page.tsx': [
+        '\nimport { GoogleSignInButton } from "@/components/GoogleSignInButton";\n',
+        '\n        <div className="relative my-2"><div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div><div className="relative flex justify-center text-xs uppercase"><span className="bg-card px-2 text-muted-foreground">or</span></div></div>\n        <GoogleSignInButton />\n',
+      ],
+      'apps/web/src/hooks/useAuthQuery.ts': [
+        'import { createSupabaseBrowserClient } from "@/lib/supabase";\n',
+        '\nexport function useGoogleSignIn() {\n  return useMutation({\n    mutationFn: async () => {\n      const supabase = createSupabaseBrowserClient();\n      const { error } = await supabase.auth.signInWithOAuth({\n        provider: "google",\n        options: { redirectTo: `${window.location.origin}/auth/callback` },\n      });\n      if (error) throw new Error(error.message);\n    },\n  });\n}\n',
+      ],
+    },
+    depsApi: [],
+    depsWeb: [],
+  },
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -360,6 +384,7 @@ async function main() {
         { title: 'Infinite scroll + pagination',                  value: 'infiniteScroll',  selected: true  },
         { title: 'Offline detection + retry queue',              value: 'offlineDetection', selected: true  },
         { title: 'Session timeout / auto-logout',                value: 'sessionTimeout',  selected: true  },
+        { title: 'Google Sign-In (OAuth via Supabase)',          value: 'googleAuth',      selected: false },
       ],
       min: 0,
     },
